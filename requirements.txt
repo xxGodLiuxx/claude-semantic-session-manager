@@ -1,0 +1,12 @@
+# Core dependencies
+sentence-transformers>=2.2.0
+numpy>=1.21.0
+
+# Optional dependencies for enhanced functionality
+torch>=1.9.0          # Required by sentence-transformers
+transformers>=4.21.0   # Required by sentence-transformers
+
+# Development dependencies (optional)
+# pytest>=7.0.0
+# black>=22.0.0
+# flake8>=5.0.0
