@@ -1,39 +1,28 @@
-# 🚀 Claude Semantic Session Manager
+# Claude Semantic Session Manager
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Claude Code Compatible](https://img.shields.io/badge/Claude_Code-Compatible-green.svg)](https://claude.ai/code)
-[![No Vector DB Required](https://img.shields.io/badge/Vector_DB-Not_Required-brightgreen.svg)](#why-no-vector-database)
 
-**The ONLY Claude Code session manager with semantic search that doesn't require a vector database.** 
+A session state manager for Claude Code CLI with semantic search capabilities. Save and restore your coding sessions with natural language search.
 
-Pure Python implementation that lets you search through months of coding sessions using natural language - no external services, no complex setup, just works.
+## What This Tool Does
 
-## 🎯 The Problem
+When using Claude Code CLI for development, this tool helps you:
+- **Save session state** automatically (git status, files, conversation)
+- **Search past sessions** using natural language queries
+- **Restore context** from previous sessions
+- **Track conversation history** from Claude CLI
 
-When using Claude Code CLI for extended development sessions, you face:
-- **Context Loss**: Claude forgets what you worked on yesterday
-- **Session Fragmentation**: Hard to find that specific implementation from last week
-- **Manual Tracking**: Constantly copying important information
-- **No Searchability**: Can't search across sessions with "that authentication bug fix"
+All data stays local on your machine.
 
-## ✨ The Solution
+## Key Features
 
-Claude Semantic Session Manager automatically:
-- 📸 **Captures** complete session state (git, files, conversation)
-- 🔍 **Enables semantic search** across ALL your sessions
-- 🔄 **Restores context** intelligently based on your query
-- 🚫 **No vector DB required** - runs completely locally
-- ⚡ **Zero configuration** - works out of the box
-
-## 🌟 Key Features
-
-### Semantic Search Without Vector Database
+### Semantic Search
 ```bash
 # Find sessions using natural language
 python session_manager.py search "authentication bug with JWT tokens"
 
-# Results ranked by relevance
+# Results with similarity scores
 1. SESSION_20250821_143242 (similarity: 0.892)
    Description: Fixed JWT refresh token expiration bug
 2. SESSION_20250819_091523 (similarity: 0.743)  
@@ -44,9 +33,9 @@ python session_manager.py search "authentication bug with JWT tokens"
 - Git branch, commits, and diff capture
 - Modified and untracked files tracking
 - Conversation history from Claude CLI
-- Intelligent description generation from changes
+- Intelligent description generation
 
-### Smart Context Restoration
+### Context Restoration
 ```bash
 # Restore with semantic query
 python session_manager.py restore --semantic "working on user dashboard"
@@ -55,13 +44,11 @@ python session_manager.py restore --semantic "working on user dashboard"
 python session_manager.py restore SESSION_20250822_143242
 ```
 
-## 🚀 Quick Start
-
-### Installation (2 minutes)
+## Installation
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/claude-semantic-session-manager.git
+git clone https://github.com/xxGodLiuxx/claude-semantic-session-manager.git
 cd claude-semantic-session-manager
 ```
 
@@ -70,15 +57,12 @@ cd claude-semantic-session-manager
 pip install -r requirements.txt
 ```
 
-3. **First-time setup** (one-time only)
+3. **First-time setup** (optional - for existing sessions)
 ```bash
-# Generate embeddings for existing sessions (if any)
 python regenerate_embeddings.py
 ```
 
-That's it! No database setup, no API keys, no configuration files.
-
-## 📖 Usage Guide
+## Usage
 
 ### Basic Commands
 
@@ -95,8 +79,6 @@ python session_manager.py save --description "Implemented user authentication"
 ```bash
 # Semantic search
 python session_manager.py search "database migrations"
-
-# Returns top 5 relevant sessions with similarity scores
 ```
 
 #### Restore Session
@@ -107,7 +89,7 @@ python session_manager.py restore
 # Restore specific session
 python session_manager.py restore SESSION_20250822_143242
 
-# Restore with different detail levels
+# Different detail levels
 python session_manager.py restore --level quick    # Summary only
 python session_manager.py restore --level normal   # Summary + context (default)
 python session_manager.py restore --level deep --load-conversation  # Everything
@@ -118,7 +100,7 @@ python session_manager.py restore --level deep --load-conversation  # Everything
 python session_manager.py list --limit 10
 ```
 
-## 🔧 Claude Code CLI Integration
+## Claude Code CLI Integration
 
 ### Setting Up Slash Commands
 
@@ -139,64 +121,35 @@ allowed-tools: ["Bash"]
 /save-session "Implemented semantic search feature"
 ```
 
-### Recommended Slash Commands
+### Example Slash Commands
 
-#### `/smart-restore`
-```markdown
----
-description: Smart context-aware restoration
-allowed-tools: ["Bash"]
----
+The `examples/slash_commands/` directory contains:
+- `/save-session` - Save current session
+- `/smart-restore` - Restore with semantic search  
+- `/session-search` - Search sessions
 
-!cd /your/project/path && python session_manager.py restore --semantic "$QUERY"
-```
+See `examples/slash_commands/README.md` for setup instructions.
 
-#### `/session-search`
-```markdown
----
-description: Search sessions semantically
-allowed-tools: ["Bash"]
----
+## How It Works
 
-!cd /your/project/path && python session_manager.py search "$QUERY"
-```
+### Technical Implementation
+- Uses `sentence-transformers` for text embeddings
+- Stores embeddings locally using pickle
+- Performs similarity search with NumPy
+- Monitors Claude CLI conversation files
+- Captures git state and file changes
 
-## 🏗️ Architecture
+### Data Storage
+- Sessions stored as JSON files in `session_states/`
+- Embeddings cached in `~/.claude/session_embeddings.pkl`
+- Old sessions archived to `session_archives/` after 180 days
 
-### Why No Vector Database?
+### Performance
+- Handles thousands of sessions efficiently
+- Search completes in under 200ms typically
+- Embeddings generated automatically when saving
 
-Traditional solutions require complex setups with vector databases like:
-- Pinecone, Weaviate, Qdrant
-- Redis with vector extensions
-- PostgreSQL with pgvector
-
-**Our approach:**
-- Uses `sentence-transformers` for embeddings
-- NumPy for cosine similarity calculations
-- Pickle for efficient caching
-- **Result**: 50ms search across 5000+ sessions
-
-### Technical Stack
-
-- **Embeddings**: `all-MiniLM-L6-v2` model (lightweight, fast)
-- **Storage**: JSON for sessions, pickle for embeddings
-- **Search**: Cosine similarity with NumPy
-- **Performance**: O(n) search, suitable for up to 5000 sessions
-
-## 📊 Comparison with Alternatives
-
-| Feature | Our Solution | claude-sessions | Claude Context | RedisVL |
-|---------|-------------|-----------------|----------------|---------|
-| Semantic Search | ✅ | ❌ | ✅ | ✅ |
-| No Vector DB | ✅ | ✅ | ❌ | ❌ |
-| Setup Time | 2 min | 5 min | 60+ min | 30+ min |
-| Memory Usage | 200MB | 50MB | 500MB+ | 400MB+ |
-| Max Sessions | 5000 | 100 | Unlimited | Unlimited |
-| Privacy | Local only | Local only | Cloud option | Cloud option |
-
-## 🔍 Advanced Usage
-
-### Programmatic API
+## Programmatic Usage
 
 ```python
 from session_manager import SessionStateManager
@@ -204,7 +157,7 @@ from session_manager import SessionStateManager
 # Initialize manager
 manager = SessionStateManager(project_root="/path/to/project")
 
-# Save state programmatically
+# Save state
 session_id = manager.save_state(description="Feature complete")
 
 # Search sessions
@@ -213,73 +166,50 @@ results = manager.semantic_search_sessions(
     top_k=10
 )
 
-for similarity, session_id, info in results:
-    print(f"{session_id}: {info['description']} (score: {similarity:.3f})")
-
 # Smart restore
 manager.smart_restore(semantic_query="working on API endpoints")
 ```
 
-### Auto-Save Configuration
+## Configuration
 
-The manager includes a background auto-saver that triggers on:
-- Significant git changes
-- Every 30 minutes of activity
-- Before potentially destructive operations
-
-### Archiving Old Sessions
-
+### Archive Settings
 Sessions older than 180 days are automatically archived:
 ```bash
 python session_manager.py cleanup --days 180
 ```
 
-## 🛠️ Troubleshooting
-
-### Common Issues
-
-**"No module named 'sentence_transformers'"**
-```bash
-pip install sentence-transformers
-```
-
-**"Embeddings out of sync"**
+### Embedding Regeneration
+If embeddings get out of sync:
 ```bash
 python regenerate_embeddings.py --force
 ```
 
-**Performance slow with many sessions**
-- The tool handles up to 5000 sessions efficiently
-- For larger scales, consider implementing batched search
-- Or contribute a vector DB adapter!
+## Troubleshooting
 
-## 🤝 Contributing
+**Installation Issues**
+```bash
+pip install sentence-transformers numpy
+```
 
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+**Embeddings Out of Sync**
+```bash
+python regenerate_embeddings.py --verify
+```
 
-### Priority Areas
-- [ ] Vector database adapters (optional backends)
-- [ ] Web UI for session browsing
-- [ ] Session diff visualization
-- [ ] Multi-project support
-- [ ] Team collaboration features
+**Performance with Many Sessions**
+- Tool handles 5000+ sessions efficiently
+- Search time scales linearly with session count
+- Consider archiving very old sessions
 
-## 📝 License
+## Contributing
+
+Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Built for the [Claude Code](https://claude.ai/code) community
-- Inspired by the need for better AI coding session management
-- Uses the excellent [sentence-transformers](https://www.sbert.net/) library
-
-## 🌟 Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/claude-semantic-session-manager&type=Date)](https://star-history.com/#yourusername/claude-semantic-session-manager&Date)
-
----
-
-**Made with ❤️ for developers who refuse to lose context**
-
-*If this tool saves you time, consider starring ⭐ the repository!*
+- Uses [sentence-transformers](https://www.sbert.net/) for embeddings
