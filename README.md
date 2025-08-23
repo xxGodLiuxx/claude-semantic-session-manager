@@ -2,8 +2,9 @@
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Version](https://img.shields.io/badge/version-1.1.0-green.svg)](https://github.com/xxGodLiuxx/claude-semantic-session-manager/releases)
 
-A session state manager for Claude Code CLI with semantic search capabilities. Save and restore your coding sessions with natural language search.
+A comprehensive session state manager for Claude Code CLI with semantic search, context extraction, and interactive session management. Save and restore your coding sessions with natural language search.
 
 ## What This Tool Does
 
@@ -61,6 +62,37 @@ pip install -r requirements.txt
 ```bash
 python regenerate_embeddings.py
 ```
+
+## What's New in v1.1.0
+
+### 🎯 Integrated Session Management
+Interactive session selection and restoration with context:
+```bash
+# Launch interactive session manager
+python session_manager_integrated.py
+
+# List sessions with details
+python session_manager_integrated.py list
+
+# Restore specific session with context
+python session_manager_integrated.py restore SESSION_ID
+```
+
+### 📋 Context Extraction
+Extract and display important context from conversation history:
+```bash
+# Extract context from latest session
+python session_context_extractor.py
+
+# Extract from specific session
+python session_context_extractor.py SESSION_20250822_143242
+```
+
+### 🔍 Enhanced Features
+- **Interactive Selection**: Choose sessions by number, keyword, or "latest"
+- **Context Display**: See previous work, commands, files, and errors
+- **One-Command Workflow**: Simplified `/session` and `/save` commands
+- **Automatic Context**: Context files generated for all sessions
 
 ## Usage
 
