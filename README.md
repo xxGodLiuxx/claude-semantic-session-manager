@@ -87,6 +87,37 @@ pip install -r requirements.txt
 python regenerate_embeddings.py
 ```
 
+## What's New in v1.1.0
+
+### 🎯 Integrated Session Management
+Interactive session selection and restoration with context:
+```bash
+# Launch interactive session manager
+python session_manager_integrated.py
+
+# List sessions with details
+python session_manager_integrated.py list
+
+# Restore specific session with context
+python session_manager_integrated.py restore SESSION_ID
+```
+
+### 📋 Context Extraction
+Extract and display important context from conversation history:
+```bash
+# Extract context from latest session
+python session_context_extractor.py
+
+# Extract from specific session
+python session_context_extractor.py SESSION_20250822_143242
+```
+
+### 🔍 Enhanced Features
+- **Interactive Selection**: Choose sessions by number, keyword, or "latest"
+- **Context Display**: See previous work, commands, files, and errors
+- **One-Command Workflow**: Simplified `/session` and `/save` commands
+- **Automatic Context**: Context files generated for all sessions
+
 ## Usage
 
 ### Basic Commands

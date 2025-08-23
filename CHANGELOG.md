@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to Claude Semantic Session Manager will be documented in this file.
 
 ## [3.8.0] - 2025-08-23
 
@@ -20,50 +20,44 @@ All notable changes to this project will be documented in this file.
 - Missing `defaultdict` import that caused restore failures
 - Incomplete conversation history preservation issue
 
-## [3.6.0] - 2025-08-22
+## [1.1.0] - 2025-08-23
 
 ### Added
-- Universal embedding generation for all sessions
-- Persistent semantic search across all historical sessions
-- Complete searchability without external vector databases
-
-## [3.5.0] - 2025-08-22
-
-### Added
-- Full automation of session management
-- Smart restore functionality
-- Intelligent description generation
-
-## [3.4.0] - 2025-08-22
-
-### Added
-- Semantic search functionality without vector database
-- Embedding-based session similarity matching
-
-## [3.3.0] - 2025-08-22
+- **Integrated Session Manager** (`session_manager_integrated.py`)
+  - Interactive session selection with number, keyword, or "latest"
+  - Session list with detailed metadata display
+  - Context-aware restoration showing previous work
+  
+- **Context Extraction** (`session_context_extractor.py`)
+  - Extract important information from conversation history
+  - Generate structured context summaries
+  - Automatic context file generation (JSON and Markdown)
+  
+- **Enhanced Slash Commands**
+  - Unified `/session` command for all session operations
+  - Simplified `/save` command with auto-features
+  - Consolidated redundant commands
 
 ### Changed
-- Extended archive period from 7 to 180 days
+- Improved README with v1.1.0 features documentation
+- Updated slash command examples for simplified workflow
+- Enhanced session restoration with automatic context display
 
-## [3.2.0] - 2025-08-22
-
-### Added
-- In-project archiving system
-- 1GB size threshold notifications
-
-## [1.1.0] - 2025-08-22
-
-### Added
-- Context extraction functionality
-- Integrated session management
-- Slash command examples
-
-### Changed
-- Simplified command structure from 10 to 3 commands
+### Fixed
+- Excluded `_context.json` files from session listing
+- Windows encoding issues in context extraction
+- Session file filtering to avoid duplicates
 
 ## [1.0.0] - 2025-08-22
 
-### Added
-- Initial release with semantic session management
-- Basic save and restore functionality
-- Git integration support
+### Initial Release
+- Core session management functionality
+- Semantic search without vector database
+- Conversation history tracking
+- Git status integration
+- Claude Code CLI integration
+- Automatic embedding generation
+- Multi-level restoration (quick, normal, deep)
+
+---
+*For detailed feature documentation, see the [README](README.md)*
