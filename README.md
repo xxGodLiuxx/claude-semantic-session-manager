@@ -1,9 +1,10 @@
-# Claude Semantic Session Manager
+# Claude Semantic Session Manager v3.8.0
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Version](https://img.shields.io/badge/version-3.8.0-green.svg)](https://github.com/xxGodLiuxx/claude-semantic-session-manager/releases)
 
-A session state manager for Claude Code CLI with semantic search capabilities. Save and restore your coding sessions with natural language search.
+A powerful session state manager for Claude Code CLI with **complete conversation preservation**, **intelligent summarization**, and **semantic search capabilities**. Save and restore your coding sessions with optimized token usage.
 
 ## What This Tool Does
 
@@ -14,6 +15,24 @@ When using Claude Code CLI for development, this tool helps you:
 - **Track conversation history** from Claude CLI
 
 All data stays local on your machine.
+
+## 🚀 New in v3.8.0
+
+### Complete Conversation Preservation
+- **100% conversation history saved** - No more 10KB limitations
+- **Full context availability** - Every message from your session is preserved
+- **Efficient storage** - Line-by-line processing for large sessions
+
+### 3-Level Intelligent Summarization
+Choose your restore level based on needs:
+- **Quick (500 tokens)**: Essential summary only - perfect for quick context
+- **Normal (2000 tokens)**: Summary + key context - ideal for continuing work
+- **Deep (10000 tokens)**: Full context + recent messages - for detailed review
+
+### Token Optimization
+- **96% token reduction** compared to loading full conversation
+- **Smart context extraction** - Only loads what you need
+- **Faster Claude responses** - Less context means quicker processing
 
 ## Key Features
 
@@ -32,16 +51,22 @@ python session_manager.py search "authentication bug with JWT tokens"
 ### Automatic Session Tracking
 - Git branch, commits, and diff capture
 - Modified and untracked files tracking
-- Conversation history from Claude CLI
+- Complete conversation history from Claude CLI
 - Intelligent description generation
 
-### Context Restoration
+### Context Restoration with Levels
 ```bash
+# Quick restore (500 tokens)
+python session_manager.py restore --level quick
+
+# Normal restore (2000 tokens) - Default
+python session_manager.py restore --level normal
+
+# Deep restore (10000 tokens) 
+python session_manager.py restore --level deep
+
 # Restore with semantic query
 python session_manager.py restore --semantic "working on user dashboard"
-
-# Or restore by session ID
-python session_manager.py restore SESSION_20250822_143242
 ```
 
 ## Installation
